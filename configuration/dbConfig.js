@@ -40,5 +40,5 @@ var stagingDB = mongodbUri.format(
         }
     }
 );
-console.log(stagingDB);
+//console.log(stagingDB);
 const mongodb = module.exports = stagingDB;

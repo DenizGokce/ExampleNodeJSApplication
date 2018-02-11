@@ -7,8 +7,9 @@ var bodyParser = require('body-parser');
 var dbContext = require('./datasource/context')
 var routes = require('./routes/routes');
 
-//var index = require('./routes/index');
+
 var person = require('./models/person');
+var counter = require('./models/counter');
 
 var app = express();
 

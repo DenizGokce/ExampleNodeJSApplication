@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 // Person Schema
 const personSchema = mongoose.Schema({
     id: {
-        type: Number
+        type: String
     },
     firstname: {
         type: String
@@ -10,6 +10,9 @@ const personSchema = mongoose.Schema({
     lastname: {
         type: String
     }
+}, {
+    collection: "people",
+    versionKey: false
 });
 
 const Person = module.exports = mongoose.model("person", personSchema);
