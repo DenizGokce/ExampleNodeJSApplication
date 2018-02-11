@@ -12,6 +12,15 @@ module.exports.getPeople = function (callback) {
     });
 };
 
+module.exports.getPerson = function (id, callback) {
+    peopleRepo.find({id: id}, "-_id id firstname lastname").then(function (people) {
+        return callback(null, people[0]);
+    }).catch(function (err) {
+        console.log(err.message);
+    });
+};
+
+
 module.exports.addPerson = function (person, callback) {
     Counter.getIdForNextPerson(function (err, id) {
         if (err) throw err; // Check for the error and throw if it exists.
