@@ -1,44 +1,23 @@
-var mongodbUri = require('mongodb-uri');
-
-var localDB = mongodbUri.format(
-    {
-        username: '',
-        password: '',
-        hosts: [
-            {
-                host: 'localhost',
-                port: 27017
-            }
-        ],
-        database: 'default',
-        options: {}
+/*
+IMPORTANT NOTE: In order to connect local mssql server sql server network protocols tcp ip port must be set to 1433
+and SQL Server Browser service must be started and after all this sql server must be restarted
+ */
+var localDB = {
+    user: 'test',
+    password: '1234',
+    server: '127.0.0.1', // You can use 'localhost\\instance' to connect to named instance
+    database: 'test',
+    port: 1433,
+    options: {
+        encrypt: false, // Use this if you're on Windows Azure
+        trustedConnection: true
     }
-);
-var stagingDB = mongodbUri.format(
-    {
-        username: 'denizgokce',
-        password: 'testpassword',
-        hosts: [
-            {
-                host: 'cluster0-shard-00-00-ias3l.mongodb.net',
-                port: 27017
-            },
-            {
-                host: 'cluster0-shard-00-01-ias3l.mongodb.net',
-                port: 27017
-            },
-            {
-                host: 'cluster0-shard-00-02-ias3l.mongodb.net',
-                port: 27017
-            }
-        ],
-        database: 'default',
-        options: {
-            ssl: true,
-            replicaSet: "Cluster0-shard-0",
-            authSource: "admin"
-        }
-    }
-);
+};
+var stagingDB = {
+    user: '...',
+    password: '...',
+    server: 'localhost', // You can use 'localhost\\instance' to connect to named instance
+    database: '...',
+};
 //console.log(stagingDB);
-const mongodb = module.exports = stagingDB;
+const dbConfig = module.exports = localDB;

@@ -1,17 +1,14 @@
-Person = require('../models/person');
-Counter = require('../models/counter')
-const repo = require("mongoose-repository-pattern");
-mongodb = require("../configuration/dbConfig")
-var peopleRepo = repo(Person, mongodb);
+let dbContext = require('../datasource/context');
+const sql = require('mssql');
 
 module.exports.getPeople = function (callback) {
-    peopleRepo.find({}, "-_id id firstname lastname").then(function (people) {
-        return callback(null, people);
-    }).catch(function (err) {
-        console.log(err.message);
+    new sql.Request(dbContext).query('select * from person', (err, result) => {
+        if (err) throw err; // Check for the error and throw if it exists.
+        return callback(null, result.recordset);
     });
 };
 
+/*
 module.exports.getPerson = function (id, callback) {
     peopleRepo.find({id: id}, "-_id id firstname lastname").then(function (people) {
         return callback(null, people[0]);
@@ -63,4 +60,4 @@ module.exports.updatePerson = function (person, callback) {
         console.log(err.message);
     });
 };
-
+*/

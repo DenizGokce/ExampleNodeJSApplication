@@ -1,26 +1,36 @@
-const mongoose = require('mongoose');
-mongodb = require("../configuration/dbConfig")
-// Connect to Mongoose
-//var dbURI = 'mongodb://denizgokce:testpassword@cluster0-shard-00-00-ias3l.mongodb.net:27017,cluster0-shard-00-01-ias3l.mongodb.net:27017,cluster0-shard-00-02-ias3l.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin';
-var dbURI = mongodb
+const sql = require('mssql');
+mssqldb = require("../configuration/dbConfig");
 
-mongoose.Promise = global.Promise;
-mongoose.connect(dbURI);
+const pool = new sql.ConnectionPool(mssqldb);
 
-var mongoContext = mongoose.connection;
+var mssqlContext = pool;
+
+pool.connect(err => {
+    console.log(err);
+});
+
+pool.on('error', err => {
+    console.log(err);
+});
+
+
 
 // CONNECTION EVENTS
 // When successfully connected
-mongoContext.on('connected', function () {
-    console.log('Mongoose default connection open to ' + dbURI);
-});
+// sql.connect(mssqldb).then(pool => {
+//     console.log('Mssql default connection open to ' + mssqldb);
+// }).then(result => {
+//     console.log(result);
+// }).catch(err => {
+//     console.log(err);
+// });
+//
+// // If the connection throws an error
+// sql.on('error', err => {
+//     console.log('Mssql default connection error: ' + err);
+// });
 
-// If the connection throws an error
-mongoContext.on('error', function (err) {
-    console.log('Mongoose default connection error: ' + err);
-});
-
-// When the connection is disconnected
+/*// When the connection is disconnected
 mongoContext.on('disconnected', function () {
     console.log('Mongoose default connection disconnected');
 });
@@ -31,7 +41,7 @@ process.on('SIGINT', function () {
         console.log('Mongoose default connection disconnected through app termination');
         process.exit(0);
     });
-});
+});*/
 
-const dbContext = module.exports = mongoContext;
+const dbContext = module.exports = mssqlContext;
 

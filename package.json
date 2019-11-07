@@ -18,6 +18,7 @@
     "mongoose": "^5.0.3",
     "mongoose-repository-pattern": "^1.0.0",
     "morgan": "~1.9.0",
+    "mssql": "^6.0.0",
     "request": "^2.83.0",
     "routes": "^2.1.0",
     "serve-favicon": "~2.4.5"
