@@ -21,15 +21,15 @@ module.exports.addPerson = function (person, callback) {
     });
 };
 
-module.exports.removePerson = function (person, callback) {
-    peopleRepository.removePerson(person, function (err, data) {
+module.exports.removePerson = function (id, callback) {
+    peopleRepository.removePerson(id, function (err, data) {
         if (err) throw err; // Check for the error and throw if it exists.
         return callback(null, data);
     });
 };
 
-module.exports.updatePerson = function (person, callback) {
-    peopleRepository.updatePerson(person, function (err, data) {
+module.exports.updatePerson = function (id, person, callback) {
+    peopleRepository.updatePerson(id, person, function (err, data) {
         if (err) throw err; // Check for the error and throw if it exists.
         return callback(null, data);
     });

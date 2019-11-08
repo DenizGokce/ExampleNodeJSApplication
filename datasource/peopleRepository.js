@@ -12,55 +12,39 @@ module.exports.getPerson = function (id, callback) {
     new sql.Request(dbContext)
         .input('id', sql.Int, id)
         .query('select * from person where id = @id', (err, result) => {
-        if (err) throw err; // Check for the error and throw if it exists.
-        return callback(null, result.recordset[0]);
-    });
+            if (err) throw err; // Check for the error and throw if it exists.
+            return callback(null, result.recordset[0]);
+        });
 };
-
-/*
-
-
 
 module.exports.addPerson = function (person, callback) {
-    Counter.getIdForNextPerson(function (err, id) {
-        if (err) throw err; // Check for the error and throw if it exists.
-        var newPerson = new Person();
-        newPerson.firstname = person.firstname;
-        newPerson.lastname = person.lastname;
-        newPerson.id = id;
-        peopleRepo.add(newPerson).then(function (person) {
+    new sql.Request(dbContext)
+        .input('firstname', sql.NVarChar, person.firstname)
+        .input('lastname', sql.NVarChar, person.lastname)
+        .query('insert into person(firstname, lastname) values(@firstname, @lastname); SELECT SCOPE_IDENTITY() AS id;', (err, result) => {
+            if (err) throw err; // Check for the error and throw if it exists.
+            person.id = result.recordset[0].id;
             return callback(null, person);
-        }).catch(function (err) {
-            console.log(err.message);
         });
-    });
 };
 
-module.exports.removePerson = function (person, callback) {
-    peopleRepo.find({id: person.id}).then(function (people) {
-        var existPerson = people[0];
-        peopleRepo.remove(existPerson._id).then(function (person) {
-            return callback(null, person);
-        }).catch(function (err) {
-            console.log(err.message);
+module.exports.removePerson = function (id, callback) {
+    new sql.Request(dbContext)
+        .input('id', sql.Int, id)
+        .query('delete from person where id = @id', (err, result) => {
+            if (err) throw err; // Check for the error and throw if it exists.
+            return callback(null, (result.rowsAffected[0] > 0));
         });
-    }).catch(function (err) {
-        console.log(err.message);
-    });
 };
 
-module.exports.updatePerson = function (person, callback) {
-    peopleRepo.find({id: person.id}).then(function (people) {
-        var existPerson = people[0];
-        existPerson.firstname = person.firstname;
-        existPerson.lastname = person.lastname;
-        peopleRepo.update(existPerson).then(function (person) {
-            return callback(null, person);
-        }).catch(function (err) {
-            console.log(err.message);
+
+module.exports.updatePerson = function (id, person, callback) {
+    new sql.Request(dbContext)
+        .input('id', sql.Int, id)
+        .input('firstname', sql.NVarChar, person.firstname)
+        .input('lastname', sql.NVarChar, person.lastname)
+        .query('update person set firstname = @firstname, lastname = @lastname where id = @id', (err, result) => {
+            if (err) throw err; // Check for the error and throw if it exists.
+            return callback(null, result.rowsAffected[0] > 0);
         });
-    }).catch(function (err) {
-        console.log(err.message);
-    });
 };
-*/

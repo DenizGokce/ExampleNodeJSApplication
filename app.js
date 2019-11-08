@@ -9,7 +9,6 @@ var routes = require('./routes/routes');
 
 
 var person = require('./models/person');
-var counter = require('./models/counter');
 
 var app = express();
 
