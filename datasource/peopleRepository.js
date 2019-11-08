@@ -8,14 +8,17 @@ module.exports.getPeople = function (callback) {
     });
 };
 
-/*
 module.exports.getPerson = function (id, callback) {
-    peopleRepo.find({id: id}, "-_id id firstname lastname").then(function (people) {
-        return callback(null, people[0]);
-    }).catch(function (err) {
-        console.log(err.message);
+    new sql.Request(dbContext)
+        .input('id', sql.Int, id)
+        .query('select * from person where id = @id', (err, result) => {
+        if (err) throw err; // Check for the error and throw if it exists.
+        return callback(null, result.recordset[0]);
     });
 };
+
+/*
+
 
 
 module.exports.addPerson = function (person, callback) {
